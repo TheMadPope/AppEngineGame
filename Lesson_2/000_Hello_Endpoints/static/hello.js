@@ -52,39 +52,61 @@ function enableButtons () {
 	
 	// Update the button label now that the button is active
 	btn.value="Click me for a personal greeting";
+	
+	// Set the onclick action for the second button
+	btn = document.getElementById("input_greet_by_period");
+	btn.onclick=function(){greetByPeriod();};
+	
+	// Update the button label now that the button is active
+	btn.value="Click me for a time based personal greeting";
 }
 
 /*
- * Execute a request to the sayHello() endpoints function
+ * Execute a request to the greet() endpoints function
  */
 function greetGenerically () {
-	// Construct the request for the sayHello() function
-	var request = gapi.client.helloworldendpoints.sayHello();
+	// Construct the request for the greet() function
+	var request = gapi.client.helloworldendpoints.greet();
 	
 	// Execute the request.
-	// On success, pass the response to sayHelloCallback()
-	request.execute(sayHelloCallback);
+	// On success, pass the response to greetCallback()
+	request.execute(greetCallback);
 }
 
 /*
- * Execute a request to the sayHelloByName() endpoints function.
+ * Execute a request to the greetByName() endpoints function.
  * Illustrates calling an endpoints function that takes an argument.
  */
 function greetByName () {
 	// Get the name from the name_field element
 	var name = document.getElementById("name_field").value;
 	
-	// Call the sayHelloByName() function.
+	// Call the greetByName() function.
 	// It takes one argument "name"
-	// On success, pass the response to sayHelloCallback()
-	var request = gapi.client.helloworldendpoints.sayHelloByName({'name': name});
-	request.execute(sayHelloCallback);
+	// On success, pass the response to greetCallback()
+	var request = gapi.client.helloworldendpoints.greetByName({'name': name});
+	request.execute(greetCallback);
 }
 
+/*
+ * Execute a request to the greetByName() endpoints function.
+ * Illustrates calling an endpoints function that takes an argument.
+ */
+function greetByPeriod () {
+	// Get the name from the name_field element
+	var name = document.getElementById("name_field").value;
+	var period = document.getElementById("period_field").value;
+	
+	// Call the greetByPeriod() function.
+	// It takes two arguments, "name" and "period"
+	// On success, pass the response to greetCallback()
+	var request = gapi.client.helloworldendpoints.greetByPeriod({'name': name,'period':period});
+	request.execute(greetCallback);
+}
 // Process the JSON response
 // In this case, just show an alert dialog box
 // displaying the value of the message field in the response
-function sayHelloCallback (response) {
+function greetCallback (response) {
 	alert(response.greeting);	
 }
 

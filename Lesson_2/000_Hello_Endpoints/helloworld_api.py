@@ -16,6 +16,7 @@ from protorpc import remote
 REQUEST_CONTAINER = endpoints.ResourceContainer(
     message_types.VoidMessage,
     name=messages.StringField(1),
+    period=messages.StringField(2),
 )
 
 
@@ -32,14 +33,20 @@ class HelloWorldApi(remote.Service):
     """Helloworld API v1."""
 
     @endpoints.method(message_types.VoidMessage, Hello,
-      path = "sayHello", http_method='GET', name = "sayHello")
+      path = "greet", http_method='GET', name = "greet")
     def say_hello(self, request):
       return Hello(greeting="Hello World")
 
     @endpoints.method(REQUEST_CONTAINER, Hello,
-      path = "sayHelloByName", http_method='GET', name = "sayHelloByName")
+      path = "greetByName", http_method='GET', name = "greetByName")
     def say_hello_by_name(self, request):
       greet = "Hello {}".format(request.name)
+      return Hello(greeting=greet)
+
+    @endpoints.method(REQUEST_CONTAINER, Hello,
+      path = "greetByPeriod", http_method='GET', name = "greetByPeriod")
+    def greet_by_period(self, request):
+      greet = "Good {} {}".format(request.period, request.name)
       return Hello(greeting=greet)
 
 
