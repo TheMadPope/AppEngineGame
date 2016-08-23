@@ -26,7 +26,7 @@ from models import Profile
 from models import ProfileMiniForm
 from models import ProfileForm
 from models import TeeShirtSize
-
+from utils import getUserId
 from settings import WEB_CLIENT_ID
 
 EMAIL_SCOPE = endpoints.EMAIL_SCOPE
@@ -68,22 +68,25 @@ class ConferenceApi(remote.Service):
         # TODO 1
         # step 1. copy utils.py from additions folder to this folder
         #         and import getUserId from it
-        # step 2. get user id by calling getUserId(user)
-        # step 3. create a new key of kind Profile from the id
+        # Done
+        # step 2. get user id by calling getUserId(user) - Done
+        # step 3. create a new key of kind Profile from the id - Done
+        user_id = getUserId(user)
+        p_key = ndb.Key(Profile, user_id)
 
         # TODO 3
-        # get the entity from datastore by using get() on the key
-        profile = None
+        # get the entity from datastore by using get() on the key - Done
+        profile = p_key.get()
         if not profile:
             profile = Profile(
-                key = None, # TODO 1 step 4. replace with the key from step 3
+                key = p_key, # TODO 1 step 4. replace with the key from step 3 - Done
                 displayName = user.nickname(), 
                 mainEmail= user.email(),
                 teeShirtSize = str(TeeShirtSize.NOT_SPECIFIED),
             )
             # TODO 2
-            # save the profile to datastore
-
+            # save the profile to datastore - Done
+            profile.put()
         return profile      # return Profile
 
 
@@ -99,9 +102,9 @@ class ConferenceApi(remote.Service):
                     val = getattr(save_request, field)
                     if val:
                         setattr(prof, field, str(val))
-            # TODO 4
-            # put the modified profile to datastore
-
+                # TODO 4
+                # put the modified profile to datastore
+                prof.put()
         # return ProfileForm
         return self._copyProfileToForm(prof)
 

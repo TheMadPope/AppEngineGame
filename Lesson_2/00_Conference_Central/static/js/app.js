@@ -86,7 +86,7 @@ app.constant('HTTP_ERRORS', {
  */
 app.factory('oauth2Provider', function ($modal) {
     var oauth2Provider = {
-        CLIENT_ID: 'remgameproject',
+        CLIENT_ID: '719434567085-5nd1i8mcq05qakmpa3q0lilh4jiligkv.apps.googleusercontent.com',
         SCOPES: 'email profile',
         signedIn: false
     }
